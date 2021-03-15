@@ -1,0 +1,8 @@
+[inside iso root]
+(echo 'n'; echo '\n'; echo '\n'; echo '\n'; echo 'w') | fdisk /dev/sda && mkfs.ext4 /dev/sda1 && mount /dev/sda1 /mnt && pacstrap /mnt base base-devel linux linux-firmware dhcpcd links vim grub && genfstab /mnt >> /mnt/etc/fstab && arch-chroot /mnt
+
+[inside chroot]
+(echo '1qaz2wsx'; echo '1qaz2wsx') | passwd && sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen && locale-gen && grud-install /dev/sda && grub-mkconfig -o /boot/grub/grub.cfg && exit
+
+[inside iso root]
+reboot

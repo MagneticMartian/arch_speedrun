@@ -21,6 +21,7 @@ p
 w
 EOL
 
+part=$(lsblk | grep "$sub_part")
 [ -z $part ] && echo 'Partition not created' && exit
 
 mkfs.ext4 $dev_sub
@@ -46,7 +47,7 @@ echo $name > /etc/hostname
 cat >> /etc/hosts << file
 127.0.0.1   localhost
 ::1         localhost
-127.0.1.1   arch-box.localdomain  arch-box
+127.0.1.1   ${name}.localdomain  ${name}
 file
 grub-install $dev_prim
 grub-mkconfig -o /boot/grub/grub.cfg

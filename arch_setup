@@ -12,7 +12,7 @@ name='arch-box'
 
 pkgs='base base-devel linux linux-firmware dhcpcd links vim grub'
 
-cat << EOL | fdisk /dev/sda
+cat << EOL | fdisk $dev_prim
 n
 p
 

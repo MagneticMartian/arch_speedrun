@@ -35,7 +35,7 @@ hwclock --systohc
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 locale-gen
 echo $name > /etc/hostname
-cat > /etc/hosts << file
+cat >> /etc/hosts << file
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   arch-box.localdomain  arch-box

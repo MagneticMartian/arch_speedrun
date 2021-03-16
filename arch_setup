@@ -15,8 +15,16 @@ genfstab /mnt >> /mnt/etc/fstab
 
 cat << EOF | arch-chroot /mnt
 (echo '1qaz2wsx'; echo '1qaz2wsx') | passwd
+ln -sf /usr/share/zoneinfo/USA/Chicago /etc/localtime
+hwclock --systohc
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 locale-gen
+echo 'arch-box' > /etc/hostname
+cat > /etc/hosts << file
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   arch-box.localdomain  arch-box
+file
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 EOF

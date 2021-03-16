@@ -11,7 +11,7 @@ EOL
 mkfs.ext4 /dev/sda1
 mount /dev/sda1 /mnt
 pacstrap /mnt base base-devel linux linux-firmware dhcpcd links vim grub
-genfstab /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 cat << EOF | arch-chroot /mnt
 (echo '1qaz2wsx'; echo '1qaz2wsx') | passwd

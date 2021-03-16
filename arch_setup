@@ -1,4 +1,17 @@
 #!/bin/bash
+
+primary=$(cat /proc/partitions | awk '{print $4}' | grep 'sd')
+sub_part=$(echo ${primary}1)
+
+dev_prim=/dev/${primary}
+dev_sub=/dev/${sub_part}
+mp=/mnt
+share=/usr/share
+
+name='arch-box'
+
+pkgs='base base-devel linux linux-firmware dhcpcd links vim grub'
+
 cat << EOL | fdisk /dev/sda
 n
 p
@@ -8,23 +21,25 @@ p
 w
 EOL
 
-mkfs.ext4 /dev/sda1
-mount /dev/sda1 /mnt
-pacstrap /mnt base base-devel linux linux-firmware dhcpcd links vim grub
-genfstab -U /mnt >> /mnt/etc/fstab
+[ -z $part ] && echo 'Partition not created' && exit
 
-cat << EOF | arch-chroot /mnt
+mkfs.ext4 $dev_sub
+mount $dev_sub $mp
+pacstrap $mp $pkgs
+genfstab -U $mp >> ${mp}/etc/fstab
+
+cat << EOF | arch-chroot ${mp}
 (echo '1qaz2wsx'; echo '1qaz2wsx') | passwd
-ln -sf /usr/share/zoneinfo/USA/Chicago /etc/localtime
+ln -sf ${share}/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 locale-gen
-echo 'arch-box' > /etc/hostname
+echo $name > /etc/hostname
 cat > /etc/hosts << file
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   arch-box.localdomain  arch-box
 file
-grub-install /dev/sda
+grub-install $dev_prim
 grub-mkconfig -o /boot/grub/grub.cfg
 EOF

@@ -27,7 +27,7 @@ part=$(lsblk | grep "$sub_part")
 mkfs.ext4 $dev_sub
 mount $dev_sub $mp
 
-mnt_check=$(lsblk | grep "$dev_sub" | awk '{print $7}')
+mnt_check=$(lsblk | grep "$sub_part" | awk '{print $7}')
 [ -z $mnt_check ] && echo 'Partition not mounted' && exit
 
 pacstrap $mp $pkgs

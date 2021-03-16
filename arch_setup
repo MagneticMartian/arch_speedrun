@@ -25,7 +25,15 @@ EOL
 
 mkfs.ext4 $dev_sub
 mount $dev_sub $mp
+
+mnt_check=$(lsblk | grep "$dev_sub" | awk '{print $7}')
+[ -z $mnt_check ] && echo 'Partition not mounted' && exit
+
 pacstrap $mp $pkgs
+
+wr_check=$(ls $mp)
+[ -z $wr_check ] && echo 'Mount not written too' && exit
+
 genfstab -U $mp >> ${mp}/etc/fstab
 
 cat << EOF | arch-chroot ${mp}

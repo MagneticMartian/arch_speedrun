@@ -10,7 +10,7 @@ share=/usr/share
 
 name='arch-box'
 
-pkgs='base base-devel linux linux-firmware dhcpcd links vim grub'
+pkgs='base base-devel linux linux-firmware dhcpcd links vim grub git wget curl'
 
 cat << EOL | fdisk $dev_prim
 n

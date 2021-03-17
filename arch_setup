@@ -38,7 +38,7 @@ wr_check=$(ls $mp)
 genfstab -U $mp >> ${mp}/etc/fstab
 
 cat << EOF | arch-chroot ${mp}
-(echo '1qaz2wsx'; echo '1qaz2wsx') | passwd
+(echo '1qaz2wsx'; echo '1qaz2wsx') | passwd -e
 ln -sf ${share}/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen

@@ -20,21 +20,19 @@ pkgs='base base-devel linux linux-firmware dhcpcd links vim grub git wget curl p
 cat << EOL | fdisk $dev_prim
 g
 n
-p
 1
 
 +256M
 t
 4
 n
-p
 2
 
 +4G
 t
+2
 19
 n
-p
 3
 
 

@@ -2,7 +2,7 @@
 The command.list is still a minimal set of one liners to install Arch.
 
 ## arch_setup
-------ALL BRANCHES OTHER THAN MAIN ARE EXPERIMENTAL-------
+------ALL BRANCHES OTHER THAN MAIN ARE EXPERIMENTAL DO NOT USE-------
 
 This has become more of a full install script. The script has been tested on QEMU. It sets up a Single partition with the MBR sceme and formats the partitions with the ext4 filesystem. In the future there may be other branches that will be for different types of filesystems and different partitioning scemes.
 

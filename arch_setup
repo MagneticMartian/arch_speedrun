@@ -1,11 +1,16 @@
 #!/bin/bash
 
 primary=$(cat /proc/partitions | awk '{print $4}' | grep 'sd')
-sub_part=$(echo ${primary}1)
+sub_part1=$(echo ${primary}1)
+sub_part2=$(echo ${primary}2)
+sub_part3=$(echo ${primary}2)
 
 dev_prim=/dev/${primary}
-dev_sub=/dev/${sub_part}
+dev_boot=/dev/${sub_part1}
+dev_swap=/dev/${sub_part2}
+dev_root=/dev/${sub_part3}
 mp=/mnt
+m_boot=${mp}/boot
 share=/usr/share
 
 name='arch-box'
@@ -13,21 +18,45 @@ name='arch-box'
 pkgs='base base-devel linux linux-firmware dhcpcd links vim grub git wget curl python go man man-pages'
 
 cat << EOL | fdisk $dev_prim
+g
 n
 p
+1
 
++256M
+t
+4
+n
+p
+2
+
++4G
+t
+19
+n
+p
+3
 
 
 w
 EOL
 
-part=$(lsblk | grep "$sub_part")
-[ -z $part ] && echo 'Partition not created' && exit
+part1=$(lsblk | grep "$sub_part1")
+[ -z $part1 ] && echo 'Boot partition not created' && exit
+part2=$(lsblk | grep "$sub_part2")
+[ -z $part2 ] && echo 'Swap partition not created' && exit
+part3=$(lsblk | grep "$sub_part3")
+[ -z $part3 ] && echo 'Root partition not created' && exit
 
-mkfs.ext4 $dev_sub
-mount $dev_sub $mp
+mkfs.ext4 $dev_boot
+mkfs.ext4 $dev_root
+mkswap $dev_swap
+mount $dev_root $mp
+swapon $dev_swap
+mkdir $m_boot
+mount $dev_boot $m_boot
 
-mnt_check=$(lsblk | grep "$sub_part" | awk '{print $7}')
+mnt_check=$(lsblk | grep "$sub_part3" | awk '{print $7}')
 [ -z $mnt_check ] && echo 'Partition not mounted' && exit
 
 pacstrap $mp $pkgs
@@ -44,11 +73,11 @@ hwclock --systohc
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 locale-gen
 echo $name > /etc/hostname
-cat >> /etc/hosts << file
+cat >> /etc/hosts << host_file
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   ${name}.localdomain  ${name}
-file
-grub-install $dev_prim
+host_file
+grub-install grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 EOF

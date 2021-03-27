@@ -76,6 +76,6 @@ cat >> /etc/hosts << host_file
 ::1         localhost
 127.0.1.1   ${name}.localdomain  ${name}
 host_file
-grub-install grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 EOF

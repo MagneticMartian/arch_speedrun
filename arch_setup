@@ -56,7 +56,7 @@ mkdir $m_boot
 mnt_check=$(lsblk | grep "$sub_part3" | awk '{print $7}')
 [ -z $mnt_check ] && echo 'Partition not mounted' && exit
 
-pacstrap $mp $pkgs
+pacstrap $(echo $mp $pkgs)
 
 wr_check=$(ls $mp)
 [ -z $wr_check ] && echo 'Mount not written too' && exit

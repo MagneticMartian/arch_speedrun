@@ -52,7 +52,6 @@ mkswap $dev_swap
 mount $dev_root $mp
 swapon $dev_swap
 mkdir $m_boot
-mount $dev_boot $m_boot
 
 mnt_check=$(lsblk | grep "$sub_part3" | awk '{print $7}')
 [ -z $mnt_check ] && echo 'Partition not mounted' && exit
@@ -65,6 +64,7 @@ wr_check=$(ls $mp)
 genfstab -U $mp >> ${mp}/etc/fstab
 
 cat << EOF | arch-chroot ${mp}
+mount $dev_boot /boot
 (echo '1qaz2wsx'; echo '1qaz2wsx') | passwd
 ln -sf ${share}/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc

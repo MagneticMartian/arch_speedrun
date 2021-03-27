@@ -12,7 +12,7 @@ pacman -Sy git
 ```
 3) Then run:
 ```
-git clone https://github.com/MagneticMartian/arch_speedrun.git
+git clone -b efi-branch https://github.com/MagneticMartian/arch_speedrun.git
 ```
 4) If you wish to just run the setup script then from the root directory do:
 ```

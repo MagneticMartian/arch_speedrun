@@ -46,7 +46,7 @@ part2=$(lsblk | grep "$sub_part2")
 part3=$(lsblk | grep "$sub_part3")
 [ -z $part3 ] && echo 'Root partition not created' && exit
 
-mkfs.ext4 $dev_boot
+mkfs.fat -F32 $dev_boot
 mkfs.ext4 $dev_root
 mkswap $dev_swap
 mount $dev_root $mp

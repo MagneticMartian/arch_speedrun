@@ -15,7 +15,7 @@ share=/usr/share
 
 name='arch-box'
 
-pkgs='base base-devel linux linux-firmware dhcpcd links vim grub git wget curl python go man man-pages'
+pkgs='base base-devel linux linux-firmware dhcpcd links vim grub efibootmgr git wget curl python go man man-pages'
 
 cat << EOL | fdisk $dev_prim
 g

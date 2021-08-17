@@ -3,7 +3,7 @@
 primary=$(cat /proc/partitions | awk '{print $4}' | grep 'sd')
 sub_part1=$(echo ${primary}1)
 sub_part2=$(echo ${primary}2)
-sub_part3=$(echo ${primary}2)
+sub_part3=$(echo ${primary}3)
 
 dev_prim=/dev/${primary}
 dev_boot=/dev/${sub_part1}
